@@ -8,7 +8,7 @@ export function generateArticleId() {
 }
 
 
-export async function generateUniqueArticleId({  maxRetries = 10000 } = {}) {
+export async function generateUniqueArticleId({ maxRetries = 10000 } = {}) {
     const table = 'Article';
     const column = 'Num_article';
     for (let attempt = 0; attempt < maxRetries; attempt++) {

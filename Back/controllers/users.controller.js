@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 import { generateUniqueUserId } from '../utils/UserId.js';
 import jwt from 'jsonwebtoken';
 
-// controlador para insertar un nuevo usuari
+// controlador para insertar un nuevo usuario
 
 export const insertUser = async (req, res) => {
   try {

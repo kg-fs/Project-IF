@@ -51,6 +51,7 @@ export const insertUser = async (req, res) => {
     res.status(500).json({ message: 'Error interno del servidor' });
   }
 };
+
 // controlador para loguearse
 export const loginUser = async (req, res) => {
   try {

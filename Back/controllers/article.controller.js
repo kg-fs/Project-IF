@@ -11,12 +11,14 @@ export const NewArticles = async (req, res) => {
             Patch_article,
             Date_publication_article,
             Num_cat_article,
-            Num_user,
-            Num_cat_state
+            Num_user
         } = req.body;
 
         // ✅ Generar ID único para el artículo
         const Num_article = await generateUniqueArticleId();
+
+        // ✅ Estado por defecto: 8 (en espera de revisión)
+        const Num_cat_state = 8;
 
         // ✅ Llamar al procedimiento almacenado
         const [rows] = await pool.query(

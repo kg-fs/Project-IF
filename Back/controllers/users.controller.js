@@ -91,12 +91,13 @@ export const loginUser = async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    // Establecer el JWT como cookie
+    // Establecer el JWT como cookie (ajustada para CORS con credenciales)
+    const isProd = process.env.NODE_ENV === 'production';
     res.cookie('jwt', token, {
-      httpOnly: true, // Evita acceso desde JavaScript
-      secure: process.env.NODE_ENV === 'production', // Solo HTTPS en producción
-      sameSite: 'strict', // Protege contra CSRF
-      maxAge: 3600000, // 1 hora en milisegundos (coincide con expiresIn)
+      httpOnly: true,
+      secure: isProd, // en localhost (dev) debe ser false; en prod true (HTTPS)
+      sameSite: isProd ? 'strict' : 'none', // para cross-site en dev usar 'none'
+      maxAge: 3600000,
     });
 
     // Enviar respuesta JSON sin el token

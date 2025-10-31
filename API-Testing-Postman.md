@@ -18,12 +18,12 @@ Postman setup
       "Summary_article": "Resumen breve del artículo",
       "Patch_article": "/uploads/imagen.jpg",
       "Date_publication_article": "2025-10-28",
-      "Num_cat_article": 3,
-      "Num_user": 45,
-      "Num_cat_state": 1
+      "Num_cat_article": 1,
+      "Num_user": 325206
     }
   - Notes:
     - `Num_article` is generated in backend.
+    - `Num_cat_state` is set to 8 by backend (en espera de revisión).
     - Date format: YYYY-MM-DD.
 
 - POST {{baseUrl}}/articles/GetArticlesByState
@@ -40,14 +40,13 @@ Postman setup
 
 - POST {{baseUrl}}/articles/GetArticlesByCategoryAndState
   - Body:
-    { "Num_cat_article": 3, "Num_cat_state": 1 }
+    { "Num_cat_article": 1, "Num_cat_state": 1 }
 
 # Reviews
 
 - POST {{baseUrl}}/reviews/InsertArticleReview
-  - Body:
+  - Body (JSON):
     {
-      "Num_article_review": 1001,
       "Date_review": "2025-10-28",
       "Comment_article": "Excelente artículo",
       "Num_article": 123,
@@ -55,6 +54,7 @@ Postman setup
       "Num_cat_state": 1
     }
   - Notes:
+    - `Num_article_review` is generated in backend automatically.
     - Procedure prevents duplicate review by same user for same article.
 
 - POST {{baseUrl}}/reviews/GetArticleReviews
@@ -65,6 +65,15 @@ Postman setup
   - Body:
     { "UserName": "Juan" }
   - Notes: Partial name match on user's full name.
+
+- POST {{baseUrl}}/reviews/UpdateArticleState
+  - Body (JSON):
+    {
+      "Num_article": 123,
+      "NewState": 1
+    }
+  - Notes:
+    - Updates the article's state using the stored procedure `UpdateArticleState(Num_article, NewState)`.
 
 # Expected responses
 - Success (typical):
@@ -78,7 +87,6 @@ Postman setup
   curl -X POST {{baseUrl}}/reviews/InsertArticleReview \
     -H "Content-Type: application/json" \
     -d '{
-      "Num_article_review": 1001,
       "Date_review": "2025-10-28",
       "Comment_article": "Excelente artículo",
       "Num_article": 123,
@@ -95,3 +103,11 @@ Postman setup
   curl -X POST {{baseUrl}}/reviews/GetArticleReviewsByUser \
     -H "Content-Type: application/json" \
     -d '{ "UserName": "Juan" }'
+
+- Update article state:
+  curl -X POST {{baseUrl}}/reviews/UpdateArticleState \
+    -H "Content-Type: application/json" \
+    -d '{
+      "Num_article": 123,
+      "NewState": 1
+    }'

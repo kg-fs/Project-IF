@@ -65,4 +65,4 @@
  - Documentación de Astro: https://docs.astro.build
  
  ---
- ¿Necesitas que añadamos instrucciones específicas de integración con el backend de NovaForum (endpoints, auth, variables de entorno)? Indícame los detalles y lo integro aquí.
+

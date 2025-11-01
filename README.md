@@ -2,7 +2,7 @@
  
  - **Misión**: Facilitar que las personas compartan conocimiento y opiniones a través de artículos y reseñas en una comunidad abierta.
  - **Visión**: Convertirse en el foro y hub de contenidos de referencia donde la calidad y la colaboración impulsan el aprendizaje.
- - **Propuesta de valor (Hero)**: "Comparte conocimiento, descubre reseñas y participa en una comunidad que te ayuda a decidir mejor".
+ - **Valores**: "Comparte conocimiento, descubre reseñas y participa en una comunidad que te ayuda a decidir mejor".
  - **Funcionalidades clave**:
    - Publicación y lectura de artículos.
    - Reseñas y valoraciones de contenido.

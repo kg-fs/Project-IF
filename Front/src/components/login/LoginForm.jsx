@@ -37,6 +37,8 @@ export default function LoginForm() {
       });
 
       const data = await resp.json().catch(() => ({}));
+      console.log('[Login] Status:', resp.status);
+      console.log('[Login] Response body:', data);
 
       if (!resp.ok) {
         const msg = data?.message || 'Error al iniciar sesión';
@@ -46,7 +48,9 @@ export default function LoginForm() {
 
       // Guarda información útil del usuario
       if (data?.user) {
+        console.log('[Login] Guardando user en localStorage:', data.user);
         localStorage.setItem('user', JSON.stringify(data.user));
+        console.log('[Login] localStorage.user ahora es:', localStorage.getItem('user'));
         const role = Number(data.user.Num_rol);
         const routes = { 1: '/admin', 2: '/investigador', 3: '/revisor', 4: '/cliente' };
         if (role && routes[role]) {
@@ -56,6 +60,7 @@ export default function LoginForm() {
       }
       // Si el backend llegara a enviar el token en el body, lo guardamos
       if (data?.token) {
+        console.log('[Login] Guardando token en localStorage');
         localStorage.setItem('token', data.token);
       }
 

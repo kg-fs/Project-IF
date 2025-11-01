@@ -36,6 +36,23 @@ import "../styles/global.css";
 				});
 			}
 		</script>
+		<script>
+			// Redirección automática si hay sesión guardada y el usuario entra a páginas públicas
+			try {
+				const raw = localStorage.getItem('user');
+				if (raw) {
+					const u = JSON.parse(raw);
+					const role = Number(u?.Num_rol);
+					const routes: Record<number, string> = { 1: '/admin', 2: '/investigador', 3: '/revisor', 4: '/cliente' };
+					const target = routes[role] || '/';
+					const here = window.location.pathname;
+					const publicPages = new Set(['/', '/landing', '/login']);
+					if (publicPages.has(here) && here !== target) {
+						window.location.replace(target);
+					}
+				}
+			} catch {}
+		</script>
 	</body>
 </html>
 

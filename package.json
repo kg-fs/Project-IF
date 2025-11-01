@@ -1,0 +1,16 @@
+{
+  "name": "project-if-monorepo",
+  "private": true,
+  "workspaces": [
+    "Front",
+    "Back"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm:dev --workspace=Back\" \"npm:dev --workspace=Front\"",
+    "dev:back": "npm run dev --workspace=Back",
+    "dev:front": "npm run dev --workspace=Front"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

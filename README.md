@@ -7,6 +7,7 @@
    - Publicación y lectura de artículos.
    - Reseñas y valoraciones de contenido.
    - Gestión de usuarios y autenticación.
+   ![NovaForum hero](./image.png)
 
 # Project-IF (NovaForum)
  

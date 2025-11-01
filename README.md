@@ -71,3 +71,5 @@
  ## Recursos
  - Astro: https://docs.astro.build
  - Express: https://expressjs.com/
+ - React: https://react.dev
+ - Tailwind CSS: https://tailwindcss.com/

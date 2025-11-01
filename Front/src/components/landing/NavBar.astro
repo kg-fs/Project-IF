@@ -1,0 +1,32 @@
+---
+import logo from "../../assets/logo.png";
+---
+<header class="mx-auto max-w-7xl px-6 pt-6">
+  <div class="flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <img transition:name="logo" src={logo.src} alt="Nova Forum" class="h-16 w-16" />
+      <span class="font-semibold">Nova Forum</span>
+    </div>
+    <nav class="flex-1 flex items-center justify-center gap-6">
+     <a href="#mision" class="text-slate-700 hover:text-slate-900 font-medium transition">Misión</a>
+     <a href="#vision" class="text-slate-700 hover:text-slate-900 font-medium transition">Visión</a>
+     <a href="#valores" class="text-slate-700 hover:text-slate-900 font-medium transition">Valores</a>
+    </nav>
+    <div class="flex items-center">
+     <a href="/login" class="inline-flex items-center justify-center rounded-full bg-[#7B1429] text-white px-6 py-3 font-semibold hover:scale-105 transition">Iniciar sesion</a>
+    </div>
+  </div>
+</header>
+
+<style is:global>
+  html {
+    scroll-behavior: smooth;
+  }
+  header nav a {
+    display: inline-block;
+    transition: transform 150ms ease, color 150ms ease;
+  }
+  header nav a:hover {
+    transform: translateY(-2px);
+  }
+</style>

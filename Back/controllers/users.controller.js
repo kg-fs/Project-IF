@@ -86,6 +86,7 @@ export const loginUser = async (req, res) => {
         Num_user: user.Num_user,
         Email: user.Email,
         First_name_user: user.First_name_user,
+        Num_rol: user.Num_rol,
       },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
@@ -104,10 +105,12 @@ export const loginUser = async (req, res) => {
     res.status(200).json({
       message: "Inicio de sesión exitoso",
       user: {
+        id: user.Num_user,
         Num_user: user.Num_user,
         First_name_user: user.First_name_user,
         Last_name_user: user.Last_name_user,
         Email: user.Email,
+        Num_rol: user.Num_rol,
       },
     });
   } catch (error) {

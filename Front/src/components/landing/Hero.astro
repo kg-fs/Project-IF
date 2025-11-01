@@ -1,0 +1,101 @@
+---
+import card1 from "../../assets/card1.png";
+import card2 from "../../assets/card2.png";
+import card3 from "../../assets/card3.png";
+import card4 from "../../assets/card4.png";
+import card5 from "../../assets/card5.png";
+import card6 from "../../assets/card6.png";
+---
+
+<section class="relative mx-auto max-w-7xl px-6 pt-16 md:pt-24">
+  <div class="pointer-events-none absolute inset-0 -z-10">
+    <div
+      class="absolute -right-20 -top-10 h-40 w-40 rounded-full bg-[#F7C889]/60 blur-2xl"
+    >
+    </div>
+    <div
+      class="absolute left-[-60px] bottom-[-60px] h-48 w-48 rounded-full bg-[#6A7F9A]/40 blur-3xl"
+    >
+    </div>
+  </div>
+
+  <div class="grid items-center gap-10 md:grid-cols-2">
+    <div>
+      <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight">
+        Donde el conocimiento renace.
+      </h1>
+      <p class="mt-4 text-lg text-slate-600 max-w-xl">
+        Nova Forum representa el renacer del conocimiento y la conexión entre
+        mentes curiosas. Así como una nova es una estrella que brilla con nueva
+        intensidad, esta plataforma busca encender la luz del pensamiento y la
+        colaboración científica en cada persona que comparte o busca saber.
+      </p>
+      <div class="mt-6 flex flex-col sm:flex-row gap-3">
+        <a
+          href="#join"
+          class="inline-flex items-center justify-center rounded-full bg-[#7B1429] text-white px-6 py-3 font-semibold hover:scale-105 transition"
+          >Crear cuenta</a
+        >
+        <a
+          href="#valores"
+          class="inline-flex items-center justify-center rounded-full border border-[#0C3675] text-[#0C3675] px-6 py-3 font-semibold hover:bg-[#8197B0] hover:border-[#8197B0] hover:text-white"
+          >Valores de Nova Forum</a
+        >
+      </div>
+    </div>
+    <div class="relative">
+      <div class="rounded-2xl bg-white p-10">
+        <div class="grid grid-cols-2 lg:grid-cols-3 gap-5">
+          <div class="aspect-4/3 rounded-xl overflow-hidden bg-slate-100">
+            <img
+              src={card1.src}
+              alt="Investigación con microscopio"
+              class="h-full w-full object-cover"
+              loading="lazy"
+            />
+          </div>
+          <div class="aspect-4/3 rounded-xl overflow-hidden bg-slate-100">
+            <img
+              src={card2.src}
+              alt="Publicación de artículos científicos"
+              class="h-full w-full object-cover"
+              loading="lazy"
+            />
+          </div>
+          <div class="aspect-4/3 rounded-xl overflow-hidden bg-slate-100">
+            <img
+              src={card3.src}
+              alt="Revisión por pares en laboratorio"
+              class="h-full w-full object-cover"
+              loading="lazy"
+            />
+          </div>
+          <div class="aspect-4/3 rounded-xl overflow-hidden bg-slate-100">
+            <img
+              src={card4.src}
+              alt="Analítica y visualización de datos"
+              class="h-full w-full object-cover"
+              loading="lazy"
+            />
+          </div>
+          <div class="aspect-4/3 rounded-xl overflow-hidden bg-slate-100">
+            <img
+              src={card5.src}
+              alt="Colaboración entre investigadores revisando documentos"
+              class="h-full w-full object-cover"
+              loading="lazy"
+            />
+          </div>
+          <div class="aspect-4/3 rounded-xl overflow-hidden bg-slate-100">
+            <img
+              src={card6.src}
+              alt="Categorías y organización de temas en estanterías"
+              class="h-full w-full object-cover"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,46 +1,68 @@
-# Astro Starter Kit: Basics
-
-```sh
-npm create astro@latest -- --template basics
-```
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
-
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+# NovaForum Frontend
+ 
+ Interfaz de usuario de NovaForum, construida con Astro. Este paquete contiene las páginas públicas y la capa de presentación que consumirá las APIs del backend de NovaForum.
+ 
+ ## ✨ Objetivos
+ - **Rendimiento**: sitios estáticos/SSR rápidos con Astro.
+ - **Simplicidad**: estructura clara y fácil de mantener.
+ - **Escalabilidad**: componentes reutilizables y separaciones por dominios.
+ 
+ ## 🔧 Requisitos
+ - Node.js 18+ (recomendado LTS)
+ - npm o pnpm
+ 
+ ## 📁 Estructura del proyecto
+ 
+ ```text
+ Front/
+ ├── public/
+ │   └── favicon.svg
+ ├── src/
+ │   ├── assets/
+ │   │   └── astro.svg
+ │   ├── components/
+ │   │   └── Welcome.astro
+ │   ├── layouts/
+ │   │   └── Layout.astro
+ │   └── pages/
+ │       └── index.astro
+ └── package.json
+ ```
+ 
+ - **public/**: archivos estáticos servidos tal cual.
+ - **src/pages/**: rutas del sitio; cada archivo mapea a una ruta.
+ - **src/components/**: componentes UI reutilizables.
+ - **src/layouts/**: layouts compartidos para páginas.
+ - **src/assets/**: imágenes, íconos y recursos estáticos usados por el código.
+ 
+ ## 🧞 Scripts
+ Ejecuta los comandos desde `Front/` en una terminal.
+ 
+ | Comando                   | Descripción                                        |
+ | :------------------------ | :------------------------------------------------- |
+ | `npm install`             | Instala dependencias                               |
+ | `npm run dev`             | Inicia el servidor local en `http://localhost:4321`|
+ | `npm run build`           | Genera la build de producción en `./dist/`         |
+ | `npm run preview`         | Previsualiza la build localmente                    |
+ | `npm run astro ...`       | Ejecuta comandos del CLI de Astro                   |
+ | `npm run astro -- --help` | Ayuda del CLI de Astro                              |
+ 
+ ## 🚀 Desarrollo local
+ 1. Instala dependencias: `npm install`.
+ 2. Levanta el entorno: `npm run dev`.
+ 3. Abre el navegador en `http://localhost:4321`.
+ 
+ ## 🧩 Convenciones
+ - Componentes y páginas con nombres descriptivos en PascalCase.
+ - Mantén los estilos y lógica de presentación dentro de `src/`.
+ - Evita lógica de negocio en el frontend; consume servicios del backend.
+ 
+ ## 📦 Build y despliegue
+ - `npm run build` genera la salida en `dist/` lista para servir en cualquier hosting estático o adaptadores SSR de Astro.
+ - Configura el proveedor de despliegue según tu infraestructura (Netlify, Vercel, etc.).
+ 
+ ## 🔗 Recursos
+ - Documentación de Astro: https://docs.astro.build
+ 
+ ---
+ ¿Necesitas que añadamos instrucciones específicas de integración con el backend de NovaForum (endpoints, auth, variables de entorno)? Indícame los detalles y lo integro aquí.

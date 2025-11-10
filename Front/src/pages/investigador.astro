@@ -1,7 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import NavBar from "../components/componentes.generales/NavBar.astro";
+import ArticlesSwitcher from "../components/investigador-components/ArticlesSwitcher.jsx";
 ---
 <Layout>
   <NavBar name="Usuario" role="Investigador" />
+  <ArticlesSwitcher client:only="react" />
 </Layout>

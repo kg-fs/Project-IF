@@ -1,0 +1,30 @@
+    # Dependencias y builds
+node_modules/
+dist/
+.astro/
+
+# Archivos de entorno
+.env
+.env.*
+Back/.env
+Front/.env
+
+# Logs y sistema
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Bloqueos
+**/package-lock.json
+**/yarn.lock
+**/pnpm-lock.yaml
+
+# Solicitud: no subir package.json
+**/package.json

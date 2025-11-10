@@ -7,5 +7,6 @@ router.post("/GetArticlesByState", ArticleController.GetArticlesByState);
 router.post("/GetArticleById", ArticleController.GetArticleById);
 router.post("/GetArticlesByCategory", ArticleController.GetArticlesByCategory);
 router.post("/GetArticlesByCategoryAndState", ArticleController.GetArticlesByCategoryAndState);
+router.post("/GetArticlesByAuthorName", ArticleController.GetArticlesByUserName);
 
 export default router;

@@ -1,0 +1,125 @@
+---
+import Layout from "../layouts/Layout.astro";
+import NavBarSimple from "../components/componentes.generales/NavBarSimple.astro";
+---
+
+<Layout>
+  <main class="min-h-screen bg-white text-slate-900">
+    <NavBarSimple />
+    <section class="mx-auto max-w-xl px-6 pt-10 pb-16">
+      <h1 class="text-2xl font-extrabold">Crear cuenta</h1>
+      <p class="mt-1 text-slate-600 text-sm">Tu rol será Investigador por defecto.</p>
+
+      <form id="signup-form" class="mt-6 space-y-4">
+        <div>
+          <label class="block text-sm mb-1">Nombre</label>
+          <input id="firstName" type="text" required class="w-full rounded-md border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-[#7B1429]" />
+        </div>
+        <div>
+          <label class="block text-sm mb-1">Apellido</label>
+          <input id="lastName" type="text" required class="w-full rounded-md border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-[#7B1429]" />
+        </div>
+        <div>
+          <label class="block text-sm mb-1">Correo</label>
+          <div class="flex items-stretch rounded-md border border-slate-300 overflow-hidden">
+            <input id="emailUser" type="text" required placeholder="usuario" class="flex-1 px-3 py-2 outline-none focus:ring-2 focus:ring-[#7B1429]" />
+            <span class="px-3 py-2 bg-slate-50 text-slate-700 whitespace-nowrap select-none">@NovaForum.com</span>
+          </div>
+          <p class="mt-1 text-xs text-slate-500">Ingresa solo el usuario. El dominio es fijo.</p>
+        </div>
+        <div>
+          <label class="block text-sm mb-1">Contraseña</label>
+          <input id="password" type="password" required minlength="6" class="w-full rounded-md border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-[#7B1429]" />
+        </div>
+        <div>
+          <label class="block text-sm mb-1">Confirmar contraseña</label>
+          <input id="password2" type="password" required minlength="6" class="w-full rounded-md border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-[#7B1429]" />
+        </div>
+        <div id="msg" class="text-sm"></div>
+        <div class="flex items-center gap-3">
+          <button id="submitBtn" type="submit" class="inline-flex items-center justify-center rounded-full bg-[#7B1429] text-white px-6 py-2 font-semibold hover:scale-105 transition">Crear cuenta</button>
+        </div>
+      </form>
+    </section>
+  </main>
+</Layout>
+
+<script>
+  const apiBase = import.meta.env.PUBLIC_API_BASE || 'http://localhost:3000';
+  const form = document.getElementById('signup-form');
+  const msg = document.getElementById('msg');
+  const btn = document.getElementById('submitBtn');
+  const emailRegex = /^[^\s@]+$/i; // solo usuario, sin @ ni dominio
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    msg.textContent = '';
+    msg.className = 'text-sm';
+
+    const getEl = (id) => document.getElementById(id);
+    const getVal = (id) => {
+      const el = getEl(id);
+      return el && 'value' in el ? String(el.value) : '';
+    };
+
+    const firstName = getVal('firstName').trim();
+    const lastName = getVal('lastName').trim();
+    // Sanitizar: impedir '@' y '.com' en el usuario
+    const rawUser = getVal('emailUser').trim();
+    const userOnly = rawUser.replace(/@.*$/,'').replace(/\.com/gi,'').replace(/\s+/g,'');
+    const email = `${userOnly}@NovaForum.com`;
+    const password = getVal('password');
+    const password2 = getVal('password2');
+
+    if (!emailRegex.test(userOnly)) {
+      msg.textContent = 'Ingresa solo el usuario (sin @ ni dominio)';
+      msg.classList.add('text-red-600');
+      return;
+    }
+    if (password !== password2) {
+      msg.textContent = 'Las contraseñas no coinciden';
+      msg.classList.add('text-red-600');
+      return;
+    }
+
+    try {
+      if (btn) btn.setAttribute('disabled', 'true');
+      const body = {
+        First_name_user: firstName,
+        Last_name_user: lastName,
+        Email: email,
+        Password_user: password,
+        Num_rol: 2, // Investigador por defecto
+        Num_cat_state: 1 // Activo por defecto
+      };
+      const resp = await fetch(`${apiBase}/users/inserUser`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      const data = await resp.json().catch(() => ({}));
+      if (!resp.ok || data?.success === false) {
+        msg.textContent = data?.message || 'No se pudo crear la cuenta';
+        msg.classList.add('text-red-600');
+        return;
+      }
+      msg.textContent = 'Cuenta creada con éxito. Redirigiendo…';
+      msg.classList.add('text-green-600');
+      setTimeout(() => { window.location.href = '/landing'; }, 2000);
+    } catch (err) {
+      msg.textContent = 'Error de red al crear la cuenta';
+      msg.classList.add('text-red-600');
+    } finally {
+      if (btn) btn.removeAttribute('disabled');
+    }
+  });
+
+  // Sanitizar mientras escribe
+  const emailUserInput = document.getElementById('emailUser');
+  if (emailUserInput && emailUserInput instanceof HTMLInputElement) {
+    emailUserInput.addEventListener('input', () => {
+      const v = emailUserInput.value || '';
+      emailUserInput.value = v.replace(/@.*$/,'').replace(/\.com/gi,'').replace(/\s+/g,'');
+    });
+  }
+</script>

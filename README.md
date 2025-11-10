@@ -55,6 +55,18 @@
  - `DB_PASSWORD`
  - `DB_PORT` (opcional, por defecto 3306)
  - `DB_NAME`
+
+### API de Artículos (rutas)
+
+- `POST /article/NewArticles`
+- `POST /article/GetArticleById`
+- `POST /article/GetArticlesByState`
+- `POST /article/GetArticlesByCategory`
+- `POST /article/GetArticlesByCategoryAndState`
+- `POST /article/GetArticlesByAuthorName`
+  - Body (cualquiera puede omitirse para búsqueda parcial):
+    - `First_name_user` y/o `Last_name_user`
+    - Alternativamente: `FirstName` y/o `LastName`
  
  ## Desarrollo local
  1. Configura MySQL y crea la base de datos indicada en `DB_NAME`.

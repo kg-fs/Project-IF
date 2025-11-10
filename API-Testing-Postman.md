@@ -42,6 +42,20 @@ Postman setup
   - Body:
     { "Num_cat_article": 1, "Num_cat_state": 1 }
 
+- POST {{baseUrl}}/articles/GetArticlesByAuthorName
+  - Body (JSON):
+    {
+      "First_name_user": "Jose",
+      "Last_name_user": "Raul"
+    }
+  - Alternativamente (alias aceptados):
+    {
+      "FirstName": "Jose",
+      "LastName": "Raul"
+    }
+  - Notas:
+    - Ambos campos son opcionales para búsqueda parcial (puedes enviar solo nombre o solo apellido).
+
 # Reviews
 
 - POST {{baseUrl}}/reviews/InsertArticleReview

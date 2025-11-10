@@ -52,6 +52,18 @@ export const insertUser = async (req, res) => {
   }
 };
 
+// controlador para obtener todos los usuarios con su rol
+export const getAllUsersWithRoles = async (req, res) => {
+  try {
+    const [rows] = await pool.query('CALL GetAllUsersWithRoles();');
+    const users = rows[0] || [];
+    res.status(200).json({ success: true, users });
+  } catch (error) {
+    console.error('Error al obtener usuarios con roles:', error);
+    res.status(500).json({ success: false, message: 'Error interno del servidor', error: error.message });
+  }
+};
+
 // controlador para loguearse
 export const loginUser = async (req, res) => {
   try {

@@ -1,6 +1,7 @@
 ---
 import logo from "../../assets/logo.png";
 import SearchInput from "./SearchInput.jsx";
+import Menu from "./Menu.jsx";
 interface Props { name: string; role: string }
 const { name, role } = Astro.props as Props;
 ---
@@ -14,8 +15,7 @@ const { name, role } = Astro.props as Props;
       </div>
     </div>
     <div class="flex items-center gap-4">
-      <a id="add-article-btn" href="#" class="hidden text-slate-700 hover:text-slate-900 text-xs font-medium transition link-raise">Agregar artículo</a>
-      <a id="my-articles-btn" href="#" class="hidden text-slate-700 hover:text-slate-900 text-xs font-medium transition link-raise">Mis artículos</a>
+      <Menu client:load />
       <SearchInput client:load placeholder="Buscar…" />
       <a id="logout-btn" href="#" class="inline-flex items-center justify-center rounded-full bg-[#7B1429] text-white px-6 py-3 font-semibold hover:scale-105 transition">Cerrar sesión</a>
     </div>
@@ -29,63 +29,51 @@ const { name, role } = Astro.props as Props;
     transition: transform 150ms ease, color 150ms ease;
   }
   header nav a:hover { transform: translateY(-2px); }
-  .link-raise { display: inline-block; transition: transform 150ms ease, color 150ms ease; }
+  .link-raise { transition: transform 150ms ease, color 150ms ease; }
   .link-raise:hover { transform: translateY(-2px); }
 </style>
 
 <script>
-  try {
-    const el = document.getElementById('user-info');
-    if (!el) throw new Error('No se encontró el elemento #user-info');
+  const initNav = () => {
+    try {
+      const el = document.getElementById('user-info');
+      if (!el) return;
 
-    const roleMap = { 1: 'Administrador', 2: 'Investigador', 3: 'Revisor' } as Record<number, string>;
+      const roleMap = { 1: 'Administrador', 2: 'Investigador', 3: 'Revisor' } as Record<number, string>;
 
-    // 1) Intentar desde localStorage.user (lo guarda LoginForm.jsx)
-    const rawUser = localStorage.getItem('user');
-    if (rawUser) {
-      const user = JSON.parse(rawUser);
-      const firstName = user.First_name_user || user.Firs_name_user || user.first_name_user || user.firstName || user.first_name || user.name;
-      const lastName = user.Last_name_user || user.last_name_user || user.lastName || user.last_name || '';
-      const roleNum = Number(user.Num_rol);
-      const roleText = roleMap[roleNum] ?? (Number.isFinite(roleNum) ? String(roleNum) : 'Usuario');
+      const rawUser = localStorage.getItem('user');
+      let firstName = '';
+      let lastName = '';
+      let roleNum: number | null = null;
+
+      if (rawUser) {
+        const user = JSON.parse(rawUser);
+        firstName = user.First_name_user || user.Firs_name_user || user.first_name_user || user.firstName || user.first_name || user.name || '';
+        lastName = user.Last_name_user || user.last_name_user || user.lastName || user.last_name || '';
+        roleNum = Number(user.Num_rol);
+      } else {
+        const token = localStorage.getItem('token') || localStorage.getItem('jwt');
+        if (token && token.split('.').length === 3) {
+          const payload = JSON.parse(atob(token.split('.')[1]));
+          firstName = payload.First_name_user || payload.Firs_name_user || payload.first_name_user || payload.firstName || payload.first_name || payload.name || '';
+          lastName = payload.Last_name_user || payload.last_name_user || payload.lastName || payload.last_name || '';
+          roleNum = Number(payload.Num_rol);
+        }
+      }
+
+      const roleText = roleMap[Number(roleNum)] ?? (Number.isFinite(Number(roleNum)) ? String(roleNum) : 'Usuario');
       if (firstName) {
         el.textContent = `${firstName} ${lastName}`.trim() + ` (${roleText})`;
-        console.log('[NavBar] Usuario desde localStorage.user:', { firstName, lastName, roleNum });
-        // Mostrar botón Agregar artículo solo para Investigador (2)
-        const addBtn = document.getElementById('add-article-btn');
-        const myBtn = document.getElementById('my-articles-btn');
-        const show = roleNum === 2;
-        if (addBtn) { addBtn.classList.toggle('hidden', !show); }
-        if (myBtn) { myBtn.classList.toggle('hidden', !show); }
-        throw new Error('OK'); // corta el flujo para no seguir al fallback
       }
-    }
-
-    // 2) Fallback: intentar decodificar token si existiera en localStorage (no httpOnly)
-    const readToken = () => localStorage.getItem('token') || localStorage.getItem('jwt');
-    const token = readToken();
-    if (token && token.split('.').length === 3) {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      const firstName = payload.First_name_user || payload.Firs_name_user || payload.first_name_user || payload.firstName || payload.first_name || payload.name;
-      const lastName = payload.Last_name_user || payload.last_name_user || payload.lastName || payload.last_name || '';
-      const roleNum = Number(payload.Num_rol);
-      const roleText = roleMap[roleNum] ?? (Number.isFinite(roleNum) ? String(roleNum) : 'Usuario');
-      if (firstName) {
-        el.textContent = `${firstName} ${lastName}`.trim() + ` (${roleText})`;
-        console.log('[NavBar] Usuario desde token en localStorage:', { firstName, lastName, roleNum });
-        const addBtn = document.getElementById('add-article-btn');
-        const myBtn = document.getElementById('my-articles-btn');
-        const show = roleNum === 2;
-        if (addBtn) { addBtn.classList.toggle('hidden', !show); }
-        if (myBtn) { myBtn.classList.toggle('hidden', !show); }
-      }
-    } else {
-      console.warn('[NavBar] No se encontró token legible en localStorage y/o user');
-    }
-  } catch (e) {
-    if ((e as Error).message !== 'OK') {
+      console.log('[NavBar] Rol detectado:', roleNum);
+    } catch (e) {
       console.warn('[NavBar] Diagnóstico:', e);
     }
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initNav);
+  } else {
+    initNav();
   }
   try {
     const btn = document.getElementById('logout-btn');

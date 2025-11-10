@@ -53,6 +53,34 @@ export const NewArticles = async (req, res) => {
     }
 };
 
+// controlador para obtener artículos filtrados por nombre y apellido del usuario autor
+export const GetArticlesByUserName = async (req, res) => {
+    try {
+        const { First_name_user, Last_name_user, FirstName, LastName } = req.body;
+        const p_FirstName = First_name_user ?? FirstName ?? null;
+        const p_LastName = Last_name_user ?? LastName ?? null;
+
+        const [rows] = await pool.query(
+            `CALL GetArticlesWithUserAndCategoryByName(?, ?);`,
+            [p_FirstName, p_LastName]
+        );
+
+        const articles = rows[0];
+
+        res.status(200).json({
+            success: true,
+            articles
+        });
+    } catch (error) {
+        console.error('Error al obtener artículos por nombre de autor:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error interno del servidor',
+            error: error.message
+        });
+    }
+};
+
 // controlador para obtener artículos filtrados por estado
 export const GetArticlesByState = async (req, res) => {
     try {

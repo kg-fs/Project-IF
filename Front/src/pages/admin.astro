@@ -1,7 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import NavBar from "../components/componentes.generales/NavBar.astro";
+import AdminSwitcher from "../components/admin-components/AdminSwitcher.jsx";
 ---
 <Layout>
   <NavBar name="Usuario" role="Administrador" />
+  <AdminSwitcher client:only="react" />
 </Layout>

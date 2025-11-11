@@ -24,21 +24,35 @@ export default function Menu() {
   // Administrador (1): acciones de administración
   if (role === 1) {
     return (
-      <div className="flex items-center gap-4">
-        <a href="#" className="text-slate-700 hover:text-slate-900 text-xs font-medium transition link-raise">Dashboard</a>
+      <div className="flex items-center gap-6">
         <a
           href="#"
           onClick={(e)=>{ e.preventDefault(); window.dispatchEvent(new Event('show-review-articles')); }}
-          className="text-slate-700 hover:text-slate-900 text-xs font-medium transition link-raise"
+          className="flex items-center gap-1.5 text-slate-700 hover:text-slate-900 text-xs font-medium transition link-raise"
         >
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
           Reviews
         </a>
-        <a href="#" className="text-slate-700 hover:text-slate-900 text-xs font-medium transition link-raise">Publicación de artículos</a>
+        <a
+          href="#"
+          onClick={(e)=>{ e.preventDefault(); window.dispatchEvent(new Event('show-publish-article')); }}
+          className="flex items-center gap-1.5 text-slate-700 hover:text-slate-900 text-xs font-medium transition link-raise"
+        >
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          </svg>
+          Publicar Artículos
+        </a>
         <a
           href="#"
           onClick={(e)=>{ e.preventDefault(); window.dispatchEvent(new Event('show-admin-users')); }}
-          className="text-slate-700 hover:text-slate-900 text-xs font-medium transition link-raise"
+          className="flex items-center gap-1.5 text-slate-700 hover:text-slate-900 text-xs font-medium transition link-raise"
         >
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
           Usuarios
         </a>
       </div>
@@ -71,19 +85,25 @@ export default function Menu() {
     ];
     return (
       <>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-6">
           <a
             href="#"
             onClick={(e)=>{ e.preventDefault(); setOpen(true); }}
-            className="text-slate-700 hover:text-slate-900 text-xs font-medium transition link-raise"
+            className="flex items-center gap-1.5 text-slate-700 hover:text-slate-900 text-xs font-medium transition link-raise"
           >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
             Agregar artículo
           </a>
           <a
             href="#"
             onClick={(e)=>{ e.preventDefault(); window.dispatchEvent(new Event('show-my-articles')); }}
-            className="text-slate-700 hover:text-slate-900 text-xs font-medium transition link-raise"
+            className="flex items-center gap-1.5 text-slate-700 hover:text-slate-900 text-xs font-medium transition link-raise"
           >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
             Mis artículos
           </a>
         </div>
@@ -95,9 +115,27 @@ export default function Menu() {
   // Revisor (3): acciones de revisión
   if (role === 3) {
     return (
-      <div className="flex items-center gap-4">
-        <a href="#" className="text-slate-700 hover:text-slate-900 text-xs font-medium transition link-raise">Evaluar artículos</a>
-        <a href="#" className="text-slate-700 hover:text-slate-900 text-xs font-medium transition link-raise">Artículos en revisión</a>
+      <div className="flex items-center gap-6">
+        <a
+          href="#"
+          onClick={(e)=>{ e.preventDefault(); window.dispatchEvent(new Event('show-revisor-evaluate')); }}
+          className="flex items-center gap-1.5 text-slate-700 hover:text-slate-900 text-xs font-medium transition link-raise"
+        >
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+          </svg>
+          Evaluar artículos
+        </a>
+        <a
+          href="#"
+          onClick={(e)=>{ e.preventDefault(); window.dispatchEvent(new Event('show-my-reviews')); }}
+          className="flex items-center gap-1.5 text-slate-700 hover:text-slate-900 text-xs font-medium transition link-raise"
+        >
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          Mis revisiones
+        </a>
       </div>
     );
   }

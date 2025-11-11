@@ -6,6 +6,6 @@ const router = Router();
 router.post("/InsertArticleReview", ReviewController.InsertArticleReview);
 router.post("/GetArticleReviews", ReviewController.GetArticleReviews);
 router.post("/GetArticleReviewsByUser", ReviewController.GetArticleReviewsByUser);
-router.post("/UpdateArticleState", ReviewController.UpdateArticleState);
+
 
 export default router;

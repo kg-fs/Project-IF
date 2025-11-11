@@ -202,3 +202,140 @@ export const GetArticlesByCategoryAndState = async (req, res) => {
         });
     }
 };
+
+// controlador para actualizar el estado de un artículo
+export const UpdateArticleState = async (req, res) => {
+    console.log('=== INICIO UpdateArticleState ===');
+    console.log('Cuerpo de la solicitud recibida:', req.body);
+    
+    // Verificar si el cuerpo de la solicitud está vacío
+    if (!req.body || Object.keys(req.body).length === 0) {
+        console.error('Error: Cuerpo de la solicitud vacío');
+        return res.status(400).json({
+            success: false,
+            message: 'El cuerpo de la solicitud no puede estar vacío',
+            error: 'REQUEST_BODY_EMPTY'
+        });
+    }
+
+    const connection = await pool.getConnection().catch(err => {
+        console.error('Error al obtener conexión de la pool:', err);
+        return res.status(500).json({
+            success: false,
+            message: 'Error al conectar con la base de datos',
+            error: err.message
+        });
+    });
+
+    try {
+        // Extraer y validar parámetros
+        const Num_article = parseInt(req.body.Num_article);
+        const Num_cat_state = parseInt(req.body.Num_cat_state);
+
+        console.log('Parámetros recibidos:', { Num_article, Num_cat_state });
+
+        // Validar que se proporcionen los parámetros necesarios
+        if (isNaN(Num_article) || isNaN(Num_cat_state)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Se requieren los parámetros Num_article y Num_cat_state y deben ser números válidos',
+                received: {
+                    Num_article: req.body.Num_article,
+                    Num_cat_state: req.body.Num_cat_state,
+                    body: req.body
+                },
+                error: 'INVALID_PARAMETERS'
+            });
+        }
+
+        console.log('Iniciando transacción...');
+        await connection.beginTransaction();
+
+        try {
+            console.log('Deshabilitando advertencias de MySQL...');
+            await connection.query('SET SESSION sql_notes = 0;');
+            
+            console.log('Llamando al procedimiento almacenado...');
+            const [result] = await connection.query(
+                'CALL UpdateArticleState(?, ?)',
+                [Num_article, Num_cat_state]
+            );
+            
+            console.log('Resultado del procedimiento:', result);
+            
+            console.log('Habilitando advertencias de MySQL...');
+            await connection.query('SET SESSION sql_notes = 1;');
+            
+            console.log('Confirmando transacción...');
+            await connection.commit();
+
+            // Respuesta exitosa
+            const response = {
+                success: true,
+                message: 'Estado del artículo actualizado correctamente',
+                data: {
+                    Num_article,
+                    Num_cat_state,
+                    affectedRows: result.affectedRows
+                }
+            };
+
+            console.log('Enviando respuesta exitosa:', response);
+            res.setHeader('Content-Type', 'application/json');
+            return res.status(200).json(response);
+
+        } catch (dbError) {
+            console.error('Error en la transacción:', dbError);
+            if (connection) {
+                console.log('Deshaciendo transacción...');
+                await connection.rollback().catch(rollbackErr => {
+                    console.error('Error al hacer rollback:', rollbackErr);
+                });
+            }
+            throw dbError;
+        }
+
+    } catch (error) {
+        console.error('Error general en UpdateArticleState:', error);
+        
+        // Determinar el código de estado apropiado
+        let statusCode = 500;
+        let errorMessage = 'Error interno del servidor al actualizar el estado del artículo';
+        let errorCode = 'INTERNAL_SERVER_ERROR';
+        
+        if (error.code === 'ER_NO_REFERENCED_ROW' || error.code === 'ER_NO_REFERENCED_ROW_2') {
+            statusCode = 404;
+            errorMessage = 'Artículo no encontrado';
+            errorCode = 'ARTICLE_NOT_FOUND';
+        } else if (error.code === 'ER_TRUNCATED_WRONG_VALUE') {
+            statusCode = 400;
+            errorMessage = 'Parámetros inválidos';
+            errorCode = 'INVALID_PARAMETERS';
+        }
+        
+        const errorResponse = {
+            success: false,
+            message: errorMessage,
+            error: error.message,
+            code: errorCode,
+            ...(process.env.NODE_ENV === 'development' && {
+                stack: error.stack,
+                sql: error.sql,
+                sqlMessage: error.sqlMessage,
+                sqlState: error.sqlState
+            })
+        };
+        
+        res.setHeader('Content-Type', 'application/json');
+        return res.status(statusCode).json(errorResponse);
+        
+    } finally {
+        if (connection) {
+            console.log('Liberando conexión...');
+            await connection.release().catch(releaseErr => {
+                console.error('Error al liberar la conexión:', releaseErr);
+            });
+        }
+        console.log('=== FIN UpdateArticleState ===\n');
+    }
+};

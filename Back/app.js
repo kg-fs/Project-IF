@@ -3,6 +3,7 @@ import { pool } from './db.js';
 import userRoutes from './routes/users.js';
 import articleRoutes from './routes/article.js';
 import reviewRoutes from './routes/review.js';
+
 import { generateUniqueUserId } from './utils/UserId.js';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -29,6 +30,7 @@ const checkConnection = async () => {
 app.use('/users', userRoutes);
 app.use('/articles', articleRoutes);
 app.use('/reviews', reviewRoutes);
+
 
 checkConnection();
 const user = async () => {

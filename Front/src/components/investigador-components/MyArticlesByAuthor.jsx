@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
+import FileViewerModal from '../componentes.generales/FileViewerModal.jsx';
 
-export default function MyArticlesByAuthor({ onClose, refreshInterval = 10000 }) {
+export default function MyArticlesByAuthor({ onClose, refreshInterval = 5000 }) {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [lastUpdate, setLastUpdate] = useState(new Date());
+  const [viewerUrl, setViewerUrl] = useState('');
 
   const { firstName, lastName } = useMemo(() => {
     try {
@@ -96,8 +98,13 @@ export default function MyArticlesByAuthor({ onClose, refreshInterval = 10000 })
     return `${dd}/${mm}/${yyyy}`;
   };
 
+  
+
   return (
     <div className="mt-6 px-4 md:px-6">
+      {viewerUrl && (
+        <FileViewerModal url={viewerUrl} onClose={() => setViewerUrl('')} />
+      )}
       <div className="mb-3 flex items-center justify-between">
         <h2 className="text-sm font-semibold text-slate-800">Mis artículos</h2>
         <button onClick={onClose} className="text-xs rounded-full border border-slate-300 px-3 py-1 text-slate-700 hover:bg-slate-50">Cerrar</button>
@@ -118,14 +125,38 @@ export default function MyArticlesByAuthor({ onClose, refreshInterval = 10000 })
                   <h3 className="text-sm font-semibold text-slate-800 line-clamp-2">{title}</h3>
                   {summary && <p className="mt-1 text-xs text-slate-600 line-clamp-3">{summary}</p>}
                   <div className="mt-2 flex flex-wrap items-center gap-2">
-                    <span className="ml-auto inline-flex items-center rounded-full border border-slate-200 px-2 py-0.5 text-[11px] text-slate-600">{category}</span>
+                    <span className="inline-flex items-center text-xs text-slate-600">
+                      <svg className="h-3 w-3 mr-1 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                      {`${firstName} ${lastName}`.trim() || 'Autor desconocido'}
+                    </span>
+                    <span className="ml-auto inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600">
+                      {category}
+                    </span>
                   </div>
-                  {date && <div className="mt-1 text-[11px] text-slate-500">{date}</div>}
+                  {date && (
+                    <div className="mt-1 flex items-center text-xs text-slate-500">
+                      <svg className="h-3 w-3 mr-1 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      {date}
+                    </div>
+                  )}
                   <div className="mt-3 flex items-center gap-2">
                     {url && (
-                      <a href={url} target="_blank" rel="noreferrer" download className="inline-flex items-center rounded-full bg-[#7B1429] px-3 py-1 text-xs font-medium text-white transition hover:scale-105">
-                        Descargar
-                      </a>
+                      <>
+                        <button
+                          type="button"
+                          onClick={() => setViewerUrl(url)}
+                          className="inline-flex items-center rounded-full border border-slate-300 px-3 py-1 text-xs font-medium text-slate-700 transition hover:bg-slate-50"
+                        >
+                          Visualizar artículo
+                        </button>
+                        <a href={url} target="_blank" rel="noreferrer" download className="inline-flex items-center rounded-full bg-[#7B1429] px-3 py-1 text-xs font-medium text-white transition hover:scale-105">
+                          Descargar
+                        </a>
+                      </>
                     )}
                   </div>
                 </article>

@@ -141,8 +141,8 @@ export default function AddReviewModal({ open, onClose, articleId, onSubmit }) {
                 onChange={(e) => setStatus(e.target.value)}
                 className="w-full px-3 py-1.5 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7B1429] focus:border-transparent"
               >
-                <option value="4">Aprobado (4)</option>
-                <option value="5">Rechazado (5)</option>
+                <option value="4">Aprobado</option>
+                <option value="5">Rechazado</option>
               </select>
             </div>
           </div>

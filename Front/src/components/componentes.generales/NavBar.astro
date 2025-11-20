@@ -1,6 +1,5 @@
 ---
 import logo from "../../assets/logo.png";
-import SearchInput from "./SearchInput.jsx";
 import Menu from "./Menu.jsx";
 interface Props { name: string; role: string }
 const { name, role } = Astro.props as Props;
@@ -16,7 +15,7 @@ const { name, role } = Astro.props as Props;
     </div>
     <div class="flex items-center gap-4">
       <Menu client:load />
-      <SearchInput client:load placeholder="Buscar…" />
+      
       <a id="logout-btn" href="#" class="inline-flex items-center justify-center rounded-full bg-[#7B1429] text-white px-6 py-3 font-semibold hover:scale-105 transition">Cerrar sesión</a>
     </div>
   </div>
